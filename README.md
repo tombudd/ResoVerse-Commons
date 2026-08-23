@@ -9,17 +9,27 @@ production services, or external systems.
 
 ## First success
 
-Requires Python 3.11 or newer and no third-party packages.
+Requires Python 3.11 or newer. The pinned Draft 2020-12 schema checker is a
+runtime dependency because bundle validation verifies input/output schemas.
 
 ```sh
+python -m pip install -e .
+
 python -m resoverse_commons.cli validate \
   examples/local-metadata-reader/capability.json
 
 python -m resoverse_commons.cli validate \
   examples/adversarial-unsafe-capability/capability.json
 
+python -m resoverse_commons.cli validate-bundle \
+  examples/local-metadata-reader/bundle.json
+
 python -m unittest discover -s tests -v
 ```
+
+The JSON Schemas check interchange structure. The Python manifest and bundle
+validators are the authoritative V1 policy layer and always return a
+non-executing `PASS` or `HOLD` receipt.
 
 The first example returns `PASS`. The adversarial example returns `HOLD` with
 specific policy reasons.
@@ -42,6 +52,14 @@ specific policy reasons.
 
 See [Governance Boundary](GOVERNANCE_BOUNDARY.md) and
 [Contribution to Learning](CONTRIBUTION_TO_LEARNING.md).
+
+Developer references:
+
+- [Capability Bundle V1](CAPABILITY_BUNDLE.md)
+- [Reason Codes](REASON_CODES.md)
+- [Compatibility Policy](COMPATIBILITY.md)
+- [Security Policy](SECURITY.md)
+- [Changelog](CHANGELOG.md)
 
 ## Candidate lifecycle
 

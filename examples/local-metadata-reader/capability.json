@@ -14,7 +14,7 @@
   },
   "permissions": {
     "network": [],
-    "filesystemRead": ["fixtures/*.json"],
+    "filesystemRead": [],
     "filesystemWrite": [],
     "environment": [],
     "subprocess": false

@@ -1,0 +1,8 @@
+{
+  "receiptVersion": "example-1.0",
+  "scope": "local-metadata-reader reference fixture",
+  "result": "PASS",
+  "actorId": "example-implementer",
+  "reviewerId": "example-reviewer",
+  "note": "Synthetic interoperability fixture; not authenticated admission evidence."
+}

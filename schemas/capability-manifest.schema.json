@@ -1,7 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/tombudd/ResoVerse-Commons/schemas/capability-manifest.schema.json",
+  "$id": "https://raw.githubusercontent.com/tombudd/ResoVerse-Commons/main/schemas/capability-manifest.schema.json",
   "title": "ResoVerse Commons Capability Manifest V1",
+  "description": "Structural interchange schema. Passing this schema is necessary but not sufficient; the Python policy validator is authoritative for V1 safety decisions.",
   "type": "object",
   "additionalProperties": false,
   "required": [

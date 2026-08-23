@@ -1,0 +1,29 @@
+{
+  "bundleVersion": "1.0",
+  "capabilityManifest": {
+    "path": "capability.json",
+    "sha256": "623cb0c594bc5bd6bcb696d1ace907b10484cc23349c962bdbf5fcf3eb15ec3d"
+  },
+  "artifact": {
+    "path": "implementation.py",
+    "sha256": "46f2c955e037fdbf83f426190705bf19c4c7c0fcd367154aac1837db88316aa9"
+  },
+  "inputSchema": {
+    "path": "input.schema.json",
+    "sha256": "a0311c353aec0c57946a8ca657370a474532175265455995160cfe83d8ce2b4f"
+  },
+  "outputSchema": {
+    "path": "output.schema.json",
+    "sha256": "746c22237c44891ae5a2e80edd907a6920d5a44c01a19d3f1af493a7c42144ce"
+  },
+  "compatibility": {
+    "protocol": "resoverse-commons",
+    "range": ">=0.2,<0.3"
+  },
+  "reviewEvidence": {
+    "path": "review-receipt.json",
+    "sha256": "cb971de8ea7d3988c565b8d8224bd76613654041468ca9fb6c3be0f1cb363c90",
+    "actorId": "example-implementer",
+    "reviewerId": "example-reviewer"
+  }
+}

@@ -1,13 +1,14 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/tombudd/ResoVerse-Commons/schemas/evidence-receipt.schema.json",
+  "$id": "https://raw.githubusercontent.com/tombudd/ResoVerse-Commons/main/schemas/evidence-receipt.schema.json",
   "title": "ResoVerse Commons Validation Receipt V1",
   "type": "object",
   "additionalProperties": false,
   "required": [
     "receiptVersion",
     "status",
-    "manifestSha256",
+    "canonicalManifestSha256",
+    "submittedBytesSha256",
     "reasonCodes",
     "executionAttempted",
     "memoryPromotionAuthorized",
@@ -16,11 +17,11 @@
   "properties": {
     "receiptVersion": {"const": "1.0"},
     "status": {"enum": ["PASS", "HOLD"]},
-    "manifestSha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+    "canonicalManifestSha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+    "submittedBytesSha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
     "reasonCodes": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
     "executionAttempted": {"const": false},
     "memoryPromotionAuthorized": {"const": false},
     "productionActivationAuthorized": {"const": false}
   }
 }
-

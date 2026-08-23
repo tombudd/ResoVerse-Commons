@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/tombudd/ResoVerse-Commons/main/schemas/capability-bundle.schema.json",
+  "title": "ResoVerse Commons Capability Bundle V1",
+  "description": "Structural interchange contract. Filesystem containment, exact byte hashes, manifest policy, and declared reviewer distinction are enforced by the Python bundle validator.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["bundleVersion", "capabilityManifest", "artifact", "inputSchema", "outputSchema", "compatibility", "reviewEvidence"],
+  "$defs": {
+    "fileReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    }
+  },
+  "properties": {
+    "bundleVersion": {"const": "1.0"},
+    "capabilityManifest": {"$ref": "#/$defs/fileReference"},
+    "artifact": {"$ref": "#/$defs/fileReference"},
+    "inputSchema": {"$ref": "#/$defs/fileReference"},
+    "outputSchema": {"$ref": "#/$defs/fileReference"},
+    "compatibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["protocol", "range"],
+      "properties": {
+        "protocol": {"const": "resoverse-commons"},
+        "range": {"type": "string", "minLength": 1}
+      }
+    },
+    "reviewEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "actorId", "reviewerId"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "actorId": {"type": "string", "minLength": 1},
+        "reviewerId": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

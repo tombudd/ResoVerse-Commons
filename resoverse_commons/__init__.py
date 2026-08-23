@@ -1,6 +1,6 @@
 """Public, non-authorizing ResoVerse Commons validation tools."""
 
-from .validator import validate_manifest
+from .bundle import validate_bundle_path
+from .validator import validate_manifest, validate_path
 
-__all__ = ["validate_manifest"]
-
+__all__ = ["validate_bundle_path", "validate_manifest", "validate_path"]

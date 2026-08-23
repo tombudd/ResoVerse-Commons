@@ -3,10 +3,12 @@
 from __future__ import annotations
 
 import hashlib
+import ipaddress
 import json
+import math
 import re
 from pathlib import Path, PurePosixPath, PureWindowsPath
-from urllib.parse import urlparse
+from urllib.parse import urlsplit
 from typing import Any
 
 ID_PATTERN = re.compile(r"^[a-z0-9]+(?:[._-][a-z0-9]+)*$")
@@ -22,6 +24,23 @@ LIMIT_FIELDS = {"wallTimeSeconds", "memoryMiB"}
 LEARNING_FIELDS = {"allowedInputs", "consent", "automaticPromotion"}
 
 
+class DuplicateJsonKeyError(ValueError):
+    """Raised when a JSON object repeats a key."""
+
+
+def _reject_duplicate_keys(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    value: dict[str, Any] = {}
+    for key, item in pairs:
+        if key in value:
+            raise DuplicateJsonKeyError(key)
+        value[key] = item
+    return value
+
+
+def load_json_bytes(raw: bytes) -> object:
+    return json.loads(raw.decode("utf-8"), object_pairs_hook=_reject_duplicate_keys)
+
+
 def _canonical_bytes(value: Any) -> bytes:
     return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()
 
@@ -29,19 +48,65 @@ def _canonical_bytes(value: Any) -> bytes:
 def _safe_relative_path(value: object) -> bool:
     if not isinstance(value, str) or not value.strip():
         return False
+    if not all(character.isprintable() for character in value):
+        return False
     if "\\" in value:
         return False
     path = PurePosixPath(value)
     windows_path = PureWindowsPath(value)
-    return value != "." and not path.is_absolute() and not windows_path.drive and ".." not in path.parts
+    return (
+        value != "."
+        and path.as_posix() == value
+        and not path.is_absolute()
+        and not windows_path.drive
+        and ".." not in path.parts
+    )
 
 
-def _digest(value: object) -> str:
+def _json_compatible(value: object) -> bool:
+    if value is None or isinstance(value, (bool, str, int)):
+        return True
+    if isinstance(value, float):
+        return math.isfinite(value)
+    if isinstance(value, list):
+        return all(_json_compatible(item) for item in value)
+    if isinstance(value, dict):
+        return all(isinstance(key, str) and _json_compatible(item) for key, item in value.items())
+    return False
+
+
+def _valid_source_url(value: object) -> bool:
+    if not isinstance(value, str) or not value or any(not 33 <= ord(character) <= 126 for character in value):
+        return False
     try:
-        payload = _canonical_bytes(value)
-    except (TypeError, ValueError):
-        payload = repr(value).encode("utf-8", errors="backslashreplace")
-    return hashlib.sha256(payload).hexdigest()
+        parsed = urlsplit(value)
+        hostname = parsed.hostname
+        parsed.port
+    except (TypeError, ValueError, UnicodeError):
+        return False
+    valid_hostname = False
+    if hostname:
+        try:
+            ipaddress.ip_address(hostname)
+            valid_hostname = True
+        except ValueError:
+            labels = hostname[:-1].split(".") if hostname.endswith(".") else hostname.split(".")
+            valid_hostname = (
+                len(hostname) <= 253
+                and all(
+                    label
+                    and len(label) <= 63
+                    and re.fullmatch(r"[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?", label)
+                    for label in labels
+                )
+            )
+    return (
+        parsed.scheme in {"http", "https"}
+        and bool(parsed.netloc)
+        and valid_hostname
+        and parsed.username is None
+        and parsed.password is None
+    )
 
 
 def _unknown_fields(value: dict[str, Any], allowed: set[str], location: str) -> list[str]:
@@ -52,7 +117,16 @@ def validate_manifest(manifest: object) -> dict[str, Any]:
     """Return a stable PASS/HOLD receipt; never execute the declared capability."""
 
     reasons: list[str] = []
-    digest = _digest(manifest)
+    canonical_digest: str | None = None
+    try:
+        compatible = _json_compatible(manifest)
+        canonical_digest = hashlib.sha256(_canonical_bytes(manifest)).hexdigest() if compatible else None
+    except (RecursionError, TypeError, ValueError):
+        compatible = False
+        canonical_digest = None
+    if not compatible:
+        reasons.append("INPUT_NOT_JSON_COMPATIBLE")
+        manifest = {}
     if not isinstance(manifest, dict):
         manifest = {}
         reasons.append("MANIFEST_MUST_BE_OBJECT")
@@ -86,14 +160,7 @@ def validate_manifest(manifest: object) -> dict[str, Any]:
         for field in sorted(PROVENANCE_FIELDS - set(provenance)):
             reasons.append(f"MISSING_REQUIRED_FIELD:provenance.{field}")
         source_url = provenance.get("sourceUrl")
-        parsed = urlparse(source_url) if isinstance(source_url, str) else None
-        if (
-            not parsed
-            or parsed.scheme not in {"http", "https"}
-            or not parsed.netloc
-            or not isinstance(source_url, str)
-            or any(not 33 <= ord(character) <= 126 for character in source_url)
-        ):
+        if not _valid_source_url(source_url):
             reasons.append("INVALID_SOURCE_URL")
         if not isinstance(provenance.get("license"), str) or not provenance.get("license", "").strip():
             reasons.append("INVALID_LICENSE")
@@ -162,7 +229,8 @@ def validate_manifest(manifest: object) -> dict[str, Any]:
     return {
         "receiptVersion": "1.0",
         "status": "HOLD" if reasons else "PASS",
-        "manifestSha256": digest,
+        "canonicalManifestSha256": canonical_digest,
+        "submittedBytesSha256": None,
         "reasonCodes": sorted(set(reasons)),
         "executionAttempted": False,
         "memoryPromotionAuthorized": False,
@@ -174,17 +242,29 @@ def validate_path(path: Path) -> dict[str, Any]:
     try:
         raw = path.read_bytes()
         raw_digest = hashlib.sha256(raw).hexdigest()
-        value = json.loads(raw.decode("utf-8"))
+        value = load_json_bytes(raw)
+    except DuplicateJsonKeyError as exc:
+        return {
+            "receiptVersion": "1.0",
+            "status": "HOLD",
+            "canonicalManifestSha256": None,
+            "submittedBytesSha256": hashlib.sha256(raw).hexdigest(),
+            "reasonCodes": [f"DUPLICATE_JSON_KEY:{exc}"],
+            "executionAttempted": False,
+            "memoryPromotionAuthorized": False,
+            "productionActivationAuthorized": False,
+        }
     except (OSError, UnicodeError, json.JSONDecodeError) as exc:
         return {
             "receiptVersion": "1.0",
             "status": "HOLD",
-            "manifestSha256": hashlib.sha256(raw).hexdigest() if "raw" in locals() else None,
+            "canonicalManifestSha256": None,
+            "submittedBytesSha256": hashlib.sha256(raw).hexdigest() if "raw" in locals() else None,
             "reasonCodes": [f"MANIFEST_READ_FAILED:{type(exc).__name__}"],
             "executionAttempted": False,
             "memoryPromotionAuthorized": False,
             "productionActivationAuthorized": False,
         }
     receipt = validate_manifest(value)
-    receipt["manifestSha256"] = raw_digest
+    receipt["submittedBytesSha256"] = raw_digest
     return receipt
