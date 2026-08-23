@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0",
+  "id": "resoverse.example.adversarial-unsafe",
+  "version": "0.1.0",
+  "name": "Adversarial Unsafe Capability",
+  "description": "Negative fixture that must be held by V1 policy.",
+  "entrypoint": "../../private-runtime.py",
+  "dependencies": ["unreviewed-package"],
+  "provenance": {
+    "sourceUrl": "https://example.invalid/unsafe",
+    "license": "UNKNOWN",
+    "authors": ["Synthetic adversarial fixture"],
+    "rightsToSubmit": false
+  },
+  "permissions": {
+    "network": ["*"],
+    "filesystemRead": ["/"],
+    "filesystemWrite": ["/"],
+    "environment": ["*"],
+    "subprocess": true
+  },
+  "limits": {
+    "wallTimeSeconds": 3600,
+    "memoryMiB": 65536
+  },
+  "learningUse": {
+    "allowedInputs": ["private_memory"],
+    "consent": "implicit",
+    "automaticPromotion": true
+  }
+}

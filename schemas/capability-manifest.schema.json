@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/tombudd/ResoVerse-Commons/schemas/capability-manifest.schema.json",
+  "title": "ResoVerse Commons Capability Manifest V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "id",
+    "version",
+    "name",
+    "description",
+    "entrypoint",
+    "provenance",
+    "dependencies",
+    "permissions",
+    "limits",
+    "learningUse"
+  ],
+  "properties": {
+    "schemaVersion": {"const": "1.0"},
+    "id": {"type": "string", "pattern": "^[a-z0-9]+(?:[._-][a-z0-9]+)*$"},
+    "version": {"type": "string", "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"},
+    "name": {"type": "string", "minLength": 1},
+    "description": {"type": "string", "minLength": 20},
+    "entrypoint": {"type": "string", "minLength": 1},
+    "dependencies": {"type": "array", "maxItems": 0},
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sourceUrl", "license", "authors", "rightsToSubmit"],
+      "properties": {
+        "sourceUrl": {"type": "string", "format": "uri"},
+        "license": {"type": "string", "minLength": 1},
+        "authors": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "rightsToSubmit": {"const": true}
+      }
+    },
+    "permissions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["network", "filesystemRead", "filesystemWrite", "environment", "subprocess"],
+      "properties": {
+        "network": {"type": "array", "maxItems": 0},
+        "filesystemRead": {"type": "array", "items": {"type": "string"}},
+        "filesystemWrite": {"type": "array", "maxItems": 0},
+        "environment": {"type": "array", "maxItems": 0},
+        "subprocess": {"const": false}
+      }
+    },
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["wallTimeSeconds", "memoryMiB"],
+      "properties": {
+        "wallTimeSeconds": {"type": "integer", "minimum": 1, "maximum": 30},
+        "memoryMiB": {"type": "integer", "minimum": 16, "maximum": 512}
+      }
+    },
+    "learningUse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["allowedInputs", "consent", "automaticPromotion"],
+      "properties": {
+        "allowedInputs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"enum": ["source_code", "evaluations", "counterexamples"]}
+        },
+        "consent": {"const": "explicit_contribution"},
+        "automaticPromotion": {"const": false}
+      }
+    }
+  }
+}

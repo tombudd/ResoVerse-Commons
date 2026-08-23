@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0",
+  "id": "resoverse.example.local-metadata-reader",
+  "version": "0.1.0",
+  "name": "Object Metadata Selector",
+  "description": "Transforms a caller-supplied object into selected metadata without network or write access.",
+  "entrypoint": "implementation.py",
+  "dependencies": [],
+  "provenance": {
+    "sourceUrl": "https://github.com/tombudd/ResoVerse-Commons",
+    "license": "Apache-2.0",
+    "authors": ["Tom Budd"],
+    "rightsToSubmit": true
+  },
+  "permissions": {
+    "network": [],
+    "filesystemRead": ["fixtures/*.json"],
+    "filesystemWrite": [],
+    "environment": [],
+    "subprocess": false
+  },
+  "limits": {
+    "wallTimeSeconds": 5,
+    "memoryMiB": 64
+  },
+  "learningUse": {
+    "allowedInputs": ["source_code", "evaluations", "counterexamples"],
+    "consent": "explicit_contribution",
+    "automaticPromotion": false
+  }
+}
