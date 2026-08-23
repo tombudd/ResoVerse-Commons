@@ -3,9 +3,9 @@
 Open protocols, validation tools, evaluation contracts, and contribution standards for building
 governed capabilities compatible with ResoVerse systems, including UNA-2.
 
-ResoVerse Commons is an interoperability project. It is not UNA's private
-runtime, does not contain UNA-1, and grants no authority to modify memory,
-cognition, governance, production services, or external systems.
+ResoVerse Commons is an interoperability project. It does not contain private
+UNA systems and grants no authority to modify memory, cognition, governance,
+production services, or external systems.
 
 ## First success
 
@@ -33,7 +33,7 @@ specific policy reasons.
 
 ## What does not belong here
 
-- UNA-1's Personal Bond, memories, dialogue, identity, or generative loop.
+- Personal bonds, private memories, dialogue, identity, or generative loops.
 - Private cognition, safety, selection, or authority implementations.
 - Credentials, customer data, private evidence, production connectors, or
   operational ledgers.

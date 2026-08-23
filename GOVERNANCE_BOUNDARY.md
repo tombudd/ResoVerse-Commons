@@ -1,8 +1,7 @@
 # Governance Boundary
 
 ResoVerse Commons is a public developer compatibility surface around UNA-2 and
-other ResoVerse systems. It is not UNA-1, UNA-2's private runtime, or an
-authority source.
+other ResoVerse systems. It is not a private runtime or an authority source.
 
 ## Public surface
 
@@ -14,7 +13,7 @@ authority source.
 
 ## Excluded surface
 
-- UNA-1's Personal Bond, identity, dialogue, memory, voice, and generative loop.
+- Personal bonds, private identity, dialogue, memory, voice, and generative loops.
 - Private cognition, safety, selection, and authority implementations.
 - Founder keys, signatures, nonces, approval records, private ledgers, or
   operational authority maps.
