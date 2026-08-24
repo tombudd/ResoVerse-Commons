@@ -1,0 +1,53 @@
+name: Capability proposal
+description: Propose a small, portable capability before implementing it.
+title: "[Capability]: "
+labels: ["enhancement", "capability"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Describe the smallest useful capability. A proposal grants no execution, admission, learning, or production authority.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem to solve
+      description: Who needs this and what becomes possible?
+    validations:
+      required: true
+  - type: textarea
+    id: contract
+    attributes:
+      label: Proposed input and output contract
+      description: Describe deterministic inputs, outputs, and expected HOLD conditions.
+    validations:
+      required: true
+  - type: textarea
+    id: permissions
+    attributes:
+      label: Required permissions
+      description: List network, filesystem, environment, subprocess, and dependency needs. V1 is zero-dependency and network-denied.
+    validations:
+      required: true
+  - type: textarea
+    id: evaluation
+    attributes:
+      label: Evaluation approach
+      description: What positive, negative, and adversarial evidence would support this candidate?
+    validations:
+      required: true
+  - type: textarea
+    id: provenance
+    attributes:
+      label: Provenance and rights
+      description: Identify likely sources, licenses, authorship, and any AI assistance.
+    validations:
+      required: true
+  - type: checkboxes
+    id: boundaries
+    attributes:
+      label: Boundary acknowledgement
+      options:
+        - label: I understand that acceptance as a candidate does not grant execution, learning, memory, or production use.
+          required: true
+        - label: I will not include private, personal, customer, credential, or protected runtime material.
+          required: true

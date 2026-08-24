@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Questions and early ideas
+    url: https://github.com/tombudd/ResoVerse-Commons/discussions
+    about: Ask for help or explore a design before opening an actionable issue.
+  - name: Private security report
+    url: https://github.com/tombudd/ResoVerse-Commons/security/advisories/new
+    about: Report an undisclosed vulnerability without publishing exploit details.

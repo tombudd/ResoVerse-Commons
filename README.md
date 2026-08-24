@@ -1,25 +1,36 @@
 # ResoVerse Commons
 
-Open protocols, validation tools, evaluation contracts, and contribution standards for building
-governed capabilities compatible with ResoVerse systems, including UNA-2.
+**Build trustworthy capabilities for governed AI systems.**
 
-ResoVerse Commons is an interoperability project. It does not contain private
-UNA systems and grants no authority to modify memory, cognition, governance,
-production services, or external systems.
+ResoVerse Commons is an open protocol and Python toolkit for packaging AI
+capabilities so they can be inspected, tested, reviewed, and—through separate
+governed decisions—adopted safely. It gives developers a portable manifest,
+byte-bound capability bundles, fail-closed validation, adversarial fixtures,
+and evidence receipts.
 
-## First success
+[![Trusted main validation](https://github.com/tombudd/ResoVerse-Commons/actions/workflows/trusted-main.yml/badge.svg)](https://github.com/tombudd/ResoVerse-Commons/actions/workflows/trusted-main.yml)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 
-Requires Python 3.11 or newer. The pinned Draft 2020-12 schema checker is a
-runtime dependency because bundle validation verifies input/output schemas.
+You do not need to understand the wider ResoVerse architecture to contribute.
+Start with one fixture, one validator improvement, one capability proposal, or
+one uncomfortable edge case.
+
+## Five-minute first success
+
+Requires Git and Python 3.11 or newer.
+
+### macOS and Linux
 
 ```sh
+git clone https://github.com/tombudd/ResoVerse-Commons.git
+cd ResoVerse-Commons
+
+python3 -m venv .venv
+source .venv/bin/activate
 python -m pip install -e .
 
 python -m resoverse_commons.cli validate \
   examples/local-metadata-reader/capability.json
-
-python -m resoverse_commons.cli validate \
-  examples/adversarial-unsafe-capability/capability.json
 
 python -m resoverse_commons.cli validate-bundle \
   examples/local-metadata-reader/bundle.json
@@ -27,17 +38,74 @@ python -m resoverse_commons.cli validate-bundle \
 python -m unittest discover -s tests -v
 ```
 
-The JSON Schemas check interchange structure. The Python manifest and bundle
-validators are the authoritative V1 policy layer and always return a
-non-executing `PASS` or `HOLD` receipt.
+### Windows PowerShell
 
-The first example returns `PASS`. The adversarial example returns `HOLD` with
-specific policy reasons.
+```powershell
+git clone https://github.com/tombudd/ResoVerse-Commons.git
+Set-Location ResoVerse-Commons
+
+py -3 -m venv .venv
+.venv\Scripts\Activate.ps1
+python -m pip install -e .
+
+python -m resoverse_commons.cli validate `
+  examples/local-metadata-reader/capability.json
+
+python -m resoverse_commons.cli validate-bundle `
+  examples/local-metadata-reader/bundle.json
+
+python -m unittest discover -s tests -v
+```
+
+Expected result: the manifest and bundle return `PASS`, and all tests pass.
+Validation never executes the declared capability or grants admission.
+
+## See it fail closed
+
+The adversarial fixture is intentionally rejected:
+
+```sh
+python -m resoverse_commons.cli validate \
+  examples/adversarial-unsafe-capability/capability.json
+```
+
+Expected result: a `HOLD` receipt and exit code `2`. That nonzero exit is the
+test succeeding, not a broken installation.
+
+## Choose a way to contribute
+
+- **First contribution:** improve a fixture, tutorial, reason code, or test.
+  Browse [`good first issue`](https://github.com/tombudd/ResoVerse-Commons/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22).
+- **Capability builders:** propose a small, deterministic capability with
+  explicit provenance, permissions, limits, and learning-use consent.
+- **Adversarial testers:** find malformed inputs or ambiguous declarations that
+  should return `HOLD` rather than crash or pass.
+- **Tool builders:** improve bundle creation, conformance testing, or portable
+  validators in other languages.
+- **Reviewers and writers:** challenge claims, improve examples, and make the
+  contributor journey clearer.
+
+Read [Contributing](CONTRIBUTING.md) for the development workflow, or start a
+[Discussion](https://github.com/tombudd/ResoVerse-Commons/discussions) if your
+idea is not ready to become an issue.
+
+## How contributions may help systems evolve
+
+Explicitly submitted source code, evaluations, counterexamples, and compatible
+data may become governed candidate inputs. They are never automatically
+executed, ingested, promoted, or incorporated into memory, cognition, doctrine,
+runtime, or production. Each transition requires separate evidence and
+authority.
+
+The full contract is in [Contribution to Learning](CONTRIBUTION_TO_LEARNING.md).
+This repository contains no private UNA systems and grants no authority over
+them.
 
 ## What belongs here
 
-- Portable capability manifests and schemas.
-- Deterministic non-executing validation tools and network-denied evaluation contracts.
+- Portable capability manifests, bundles, and schemas.
+- Deterministic, non-executing validation tools.
+- Network-denied evaluation contracts.
 - Synthetic fixtures, counterexamples, and reproducibility receipts.
 - Documentation for provenance, permissions, review, and contribution.
 
@@ -47,18 +115,19 @@ specific policy reasons.
 - Private cognition, safety, selection, or authority implementations.
 - Credentials, customer data, private evidence, production connectors, or
   operational ledgers.
-- Any mechanism that automatically promotes a contribution into memory,
-  cognition, doctrine, runtime, or production.
+- Any mechanism that automatically promotes a contribution.
 
-See [Governance Boundary](GOVERNANCE_BOUNDARY.md) and
-[Contribution to Learning](CONTRIBUTION_TO_LEARNING.md).
+See [Governance Boundary](GOVERNANCE_BOUNDARY.md), [Security](SECURITY.md), and
+[Support](SUPPORT.md).
 
-Developer references:
+## Developer reference
 
 - [Capability Bundle V1](CAPABILITY_BUNDLE.md)
 - [Reason Codes](REASON_CODES.md)
 - [Compatibility Policy](COMPATIBILITY.md)
-- [Security Policy](SECURITY.md)
+- [Roadmap](ROADMAP.md)
+- [Project Governance](GOVERNANCE.md)
+- [Maintainers and Registry Trust](MAINTAINERS.md)
 - [Changelog](CHANGELOG.md)
 
 ## Candidate lifecycle
@@ -75,7 +144,7 @@ No lifecycle state grants production activation or memory promotion.
 
 ## License
 
-The entire repository is licensed under Apache-2.0. Names, logos, and badges
-are governed separately; see [Trademarks](TRADEMARKS.md).
+The repository is licensed under Apache-2.0. Names, logos, and badges are
+governed separately; see [Trademarks](TRADEMARKS.md).
 
 Copyright 2026 Tom Budd.

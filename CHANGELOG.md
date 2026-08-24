@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased
+
+- Reframed the README around a five-minute first success and concrete ways to
+  contribute.
+- Added contributor support, conduct, roadmap, issue forms, pull-request
+  guidance, and code-ownership surfaces.
+- Added read-only, non-executing pull-request boundary feedback.
+- Added regression checks for community files, documentation links, onboarding
+  commands, and public-boundary wording.
+
 ## 0.2.0 — 2026-08-23
 
 - Made malformed URL and path handling fail closed.

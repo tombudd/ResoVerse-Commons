@@ -1,0 +1,49 @@
+name: Bug report
+description: Report reproducible validator, schema, CLI, or documentation behavior.
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for helping make the contracts more reliable. Do not include credentials, private data, or live exploit details.
+  - type: textarea
+    id: observed
+    attributes:
+      label: What happened?
+      description: Include the exact command, receipt, or documentation path.
+      placeholder: I expected HOLD, but observed...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal public reproduction
+      description: Provide the smallest rights-clear example that reproduces the behavior.
+      render: shell
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      placeholder: Python 3.12, macOS 15 / Ubuntu 24.04 / Windows 11
+    validations:
+      required: true
+  - type: checkboxes
+    id: boundaries
+    attributes:
+      label: Submission checks
+      options:
+        - label: I removed credentials, private data, customer data, and protected implementation material.
+          required: true
+        - label: I have the right to submit the reproduction.
+          required: true
+        - label: This is not an undisclosed security vulnerability.
+          required: true

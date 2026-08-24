@@ -1,0 +1,38 @@
+name: Evaluation fixture or counterexample
+description: Contribute an edge case and the PASS or HOLD behavior it should demonstrate.
+title: "[Fixture]: "
+labels: ["enhancement", "evaluation"]
+body:
+  - type: textarea
+    id: case
+    attributes:
+      label: Fixture or counterexample
+      description: Provide a minimal public value or attach a rights-clear file.
+    validations:
+      required: true
+  - type: dropdown
+    id: expected_status
+    attributes:
+      label: Expected status
+      options:
+        - HOLD
+        - PASS
+        - Unsure — needs discussion
+    validations:
+      required: true
+  - type: textarea
+    id: reason
+    attributes:
+      label: Expected reason and evidence
+      description: Name the reason code if known and explain why the behavior is correct.
+    validations:
+      required: true
+  - type: checkboxes
+    id: rights
+    attributes:
+      label: Submission checks
+      options:
+        - label: This fixture is synthetic, contributor-owned, or compatibly licensed.
+          required: true
+        - label: I removed credentials, private data, and protected implementation material.
+          required: true
