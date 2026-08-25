@@ -2,6 +2,20 @@
 
 ## Unreleased
 
+- Added GitHub Sponsors configuration, organizational sponsorship guidance,
+  draft tiers, and an explicit sponsor-independence boundary.
+- Added a GitHub-native launch playbook with positioning, discoverability,
+  contributor-conversion, and copy-ready outreach guidance.
+- Added a portable six-case V1 conformance corpus and fail-closed CLI runner.
+- Added an experimental zero-dependency JavaScript validator that independently
+  passes the shared corpus, with its remaining parity limitation documented.
+- Added deterministic generated-input robustness coverage.
+- Expanded trusted-main verification across Python 3.11–3.14, Linux, macOS,
+  and Windows, with a clean wheel-install smoke test.
+- Added cross-platform release-manifest verification, Dependabot configuration,
+  and a release trust-path checklist.
+- Corrected the runtime dependency pin to a release available through the
+  project build environment so clean wheel installation succeeds.
 - Reframed the README around a five-minute first success and concrete ways to
   contribute.
 - Added contributor support, conduct, roadmap, issue forms, pull-request

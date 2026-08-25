@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "1.0",
+  "id": "resoverse.conformance.pass-minimal",
+  "version": "1.0.0",
+  "name": "Conformance Pass Fixture",
+  "description": "Portable manifest expected to pass every conforming V1 validator.",
+  "entrypoint": "implementation.py",
+  "dependencies": [],
+  "provenance": {"sourceUrl": "https://github.com/tombudd/ResoVerse-Commons", "license": "Apache-2.0", "authors": ["ResoVerse Commons contributors"], "rightsToSubmit": true},
+  "permissions": {"network": [], "filesystemRead": [], "filesystemWrite": [], "environment": [], "subprocess": false},
+  "limits": {"wallTimeSeconds": 5, "memoryMiB": 64},
+  "learningUse": {"allowedInputs": ["counterexamples", "evaluations", "source_code"], "consent": "explicit_contribution", "automaticPromotion": false}
+}

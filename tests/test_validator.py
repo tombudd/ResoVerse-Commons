@@ -1,5 +1,6 @@
 import copy
 import json
+import random
 import sys
 import tempfile
 import unittest
@@ -188,6 +189,27 @@ class ValidatorTests(unittest.TestCase):
             receipt = validate_manifest(value)
             self.assertIn(receipt["status"], {"PASS", "HOLD"})
             self.assertEqual(len(receipt["canonicalManifestSha256"]), 64)
+
+    def test_deterministic_generated_json_inputs_never_raise(self):
+        generator = random.Random(20260823)
+
+        def value(depth=0):
+            primitives = [None, True, False, generator.randint(-1000, 1000), "text"]
+            if depth >= 4:
+                return generator.choice(primitives)
+            choice = generator.randrange(3)
+            if choice == 0:
+                return generator.choice(primitives)
+            if choice == 1:
+                return [value(depth + 1) for _ in range(generator.randrange(5))]
+            return {f"key-{index}": value(depth + 1) for index in range(generator.randrange(5))}
+
+        for _ in range(1000):
+            candidate = value()
+            first = validate_manifest(candidate)
+            second = validate_manifest(candidate)
+            self.assertEqual(first, second)
+            self.assertIn(first["status"], {"PASS", "HOLD"})
 
     def test_reference_implementation(self):
         import importlib.util

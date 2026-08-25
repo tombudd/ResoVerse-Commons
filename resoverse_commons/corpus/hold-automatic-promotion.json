@@ -1,0 +1,9 @@
+{
+  "schemaVersion": "1.0", "id": "resoverse.conformance.hold-promotion", "version": "1.0.0",
+  "name": "Promotion Hold Fixture", "description": "Negative fixture requesting automatic promotion without authority.",
+  "entrypoint": "implementation.py", "dependencies": [],
+  "provenance": {"sourceUrl": "https://example.com", "license": "CC0-1.0", "authors": ["Commons fixture"], "rightsToSubmit": true},
+  "permissions": {"network": [], "filesystemRead": [], "filesystemWrite": [], "environment": [], "subprocess": false},
+  "limits": {"wallTimeSeconds": 5, "memoryMiB": 64},
+  "learningUse": {"allowedInputs": [], "consent": "explicit_contribution", "automaticPromotion": true}
+}

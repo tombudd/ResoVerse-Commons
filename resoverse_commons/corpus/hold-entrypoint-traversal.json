@@ -1,0 +1,9 @@
+{
+  "schemaVersion": "1.0", "id": "resoverse.conformance.hold-entrypoint", "version": "1.0.0",
+  "name": "Traversal Hold Fixture", "description": "Negative fixture containing a parent-traversing artifact entrypoint.",
+  "entrypoint": "../implementation.py", "dependencies": [],
+  "provenance": {"sourceUrl": "https://example.com", "license": "CC0-1.0", "authors": ["Commons fixture"], "rightsToSubmit": true},
+  "permissions": {"network": [], "filesystemRead": [], "filesystemWrite": [], "environment": [], "subprocess": false},
+  "limits": {"wallTimeSeconds": 5, "memoryMiB": 64},
+  "learningUse": {"allowedInputs": [], "consent": "explicit_contribution", "automaticPromotion": false}
+}

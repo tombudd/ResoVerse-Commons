@@ -1,0 +1,9 @@
+{
+  "schemaVersion": "1.0", "id": "resoverse.conformance.hold-rights", "version": "1.0.0",
+  "name": "Submission Rights Hold Fixture", "description": "Negative fixture whose author has not certified submission rights.",
+  "entrypoint": "implementation.py", "dependencies": [],
+  "provenance": {"sourceUrl": "https://example.com", "license": "CC0-1.0", "authors": ["Commons fixture"], "rightsToSubmit": false},
+  "permissions": {"network": [], "filesystemRead": [], "filesystemWrite": [], "environment": [], "subprocess": false},
+  "limits": {"wallTimeSeconds": 5, "memoryMiB": 64},
+  "learningUse": {"allowedInputs": [], "consent": "explicit_contribution", "automaticPromotion": false}
+}
