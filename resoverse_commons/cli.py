@@ -7,8 +7,8 @@ import json
 from pathlib import Path
 
 from .bundle import validate_bundle_path
-from .learning import validate_learning_candidate
-from .validator import validate_path
+from .learning import _invalid_receipt, validate_learning_candidate
+from .validator import DuplicateJsonKeyError, load_json_bytes, validate_path
 
 
 def main() -> int:
@@ -29,9 +29,16 @@ def main() -> int:
     elif args.command == "validate-bundle":
         receipt = validate_bundle_path(args.bundle)
     else:
-        receipt = validate_learning_candidate(json.loads(args.candidate.read_text(encoding="utf-8")))
+        try:
+            candidate = load_json_bytes(args.candidate.read_bytes())
+        except DuplicateJsonKeyError as exc:
+            receipt = _invalid_receipt(f"DUPLICATE_JSON_KEY:{exc}")
+        except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+            receipt = _invalid_receipt(f"CANDIDATE_READ_ERROR:{type(exc).__name__}")
+        else:
+            receipt = validate_learning_candidate(candidate)
     print(json.dumps(receipt, indent=2, sort_keys=True))
-    return 0 if receipt["status"] in {"PASS", "QUARANTINED"} else 2
+    return 0 if receipt["status"] in {"PASS", "waiting_for_review"} else 2
 
 
 if __name__ == "__main__":

@@ -130,17 +130,11 @@ See [Governance Boundary](GOVERNANCE_BOUNDARY.md), [Security](SECURITY.md), and
 - [Maintainers and Registry Trust](MAINTAINERS.md)
 - [Changelog](CHANGELOG.md)
 
-## Candidate lifecycle
+## Contribution review result
 
-```text
-SUBMITTED -> QUARANTINED -> EVALUATED -> ACCEPTED_AS_CANDIDATE
-                                  \----> HOLD
-
-ACCEPTED_AS_CANDIDATE -> SANDBOX_APPROVED -> DEPRECATED
-                    \---------------------> REVOKED
-```
-
-No lifecycle state grants production activation or memory promotion.
+A complete submission returns `waiting_for_review`. A submission with missing
+or invalid information returns `needs_changes`. Neither result runs code,
+changes the project, or uses the submission in a live service.
 
 ## License
 

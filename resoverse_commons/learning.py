@@ -4,20 +4,37 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 from typing import Any
+
+from .validator import _safe_relative_path, _valid_source_url
 
 
 TOP_LEVEL_FIELDS = {"candidateVersion", "id", "provenance", "artifacts", "learningUse", "revocation"}
 PROVENANCE_FIELDS = {"sourceUrl", "license", "authors", "rightsToSubmit"}
 LEARNING_FIELDS = {"consent", "intendedUse", "automaticPromotion"}
 REVOCATION_FIELDS = {"supported", "contact"}
+SHA256_PATTERN = re.compile(r"^[0-9a-fA-F]{64}$")
 
 
 def _canonical_sha256(value: object) -> str | None:
     try:
         return hashlib.sha256(json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()).hexdigest()
-    except (TypeError, ValueError):
+    except (RecursionError, TypeError, ValueError):
         return None
+
+
+def _invalid_receipt(reason: str) -> dict[str, Any]:
+    return {
+        "receiptVersion": "1.0",
+        "status": "needs_changes",
+        "candidateId": None,
+        "canonicalCandidateSha256": None,
+        "reasonCodes": [reason],
+        "addedToProject": False,
+        "softwareChanged": False,
+        "codeRun": False,
+    }
 
 
 def validate_learning_candidate(candidate: object) -> dict[str, Any]:
@@ -39,7 +56,7 @@ def validate_learning_candidate(candidate: object) -> dict[str, Any]:
     if not isinstance(provenance, dict) or set(provenance) != PROVENANCE_FIELDS:
         reasons.append("INVALID_PROVENANCE")
     else:
-        if not isinstance(provenance.get("sourceUrl"), str) or not provenance["sourceUrl"].startswith(("https://", "http://")):
+        if not _valid_source_url(provenance.get("sourceUrl")):
             reasons.append("INVALID_SOURCE_URL")
         if not isinstance(provenance.get("license"), str) or not provenance["license"].strip():
             reasons.append("INVALID_LICENSE")
@@ -49,7 +66,7 @@ def validate_learning_candidate(candidate: object) -> dict[str, Any]:
             reasons.append("RIGHTS_TO_SUBMIT_NOT_CERTIFIED")
 
     artifacts = candidate.get("artifacts")
-    if not isinstance(artifacts, list) or not artifacts or not all(isinstance(item, dict) and set(item) == {"path", "sha256"} and isinstance(item["path"], str) and item["path"] and isinstance(item["sha256"], str) and len(item["sha256"]) == 64 for item in artifacts):
+    if not isinstance(artifacts, list) or not artifacts or not all(isinstance(item, dict) and set(item) == {"path", "sha256"} and _safe_relative_path(item["path"]) and isinstance(item["sha256"], str) and SHA256_PATTERN.fullmatch(item["sha256"]) for item in artifacts):
         reasons.append("INVALID_ARTIFACTS")
 
     learning = candidate.get("learningUse")
