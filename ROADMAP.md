@@ -11,6 +11,11 @@ item grants no runtime, admission, or production authority.
 - Safe and adversarial examples
 - Independent public-boundary review
 - Trusted-main verification
+- Portable cross-language conformance corpus and runner
+- Supported-version and operating-system CI matrix
+- Clean wheel-build and installation smoke test
+- Dependabot configuration and documented release trust path
+- Experimental zero-dependency JavaScript validator passing the shared corpus
 
 ## Community foundation — designed
 
@@ -24,9 +29,8 @@ item grants no runtime, admission, or production authority.
 ## Next protocol work — aspired
 
 - Bundle-generation and inspection commands
-- A reusable cross-language conformance corpus
 - More adversarial fixtures and reason-code coverage
-- Reference validators in additional languages
+- Promote the JavaScript validator after raw duplicate-key and adversarial parity
 - Transparent candidate-registry and revocation procedures
 - Reviewer guidance and reproducible evaluation packets
 

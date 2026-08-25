@@ -1,0 +1,9 @@
+{
+  "schemaVersion": "1.0", "id": "resoverse.conformance.hold-network", "version": "1.0.0",
+  "name": "Network Hold Fixture", "description": "Negative fixture declaring network access prohibited by V1 policy.",
+  "entrypoint": "implementation.py", "dependencies": [],
+  "provenance": {"sourceUrl": "https://example.com", "license": "CC0-1.0", "authors": ["Commons fixture"], "rightsToSubmit": true},
+  "permissions": {"network": ["https://api.example.com"], "filesystemRead": [], "filesystemWrite": [], "environment": [], "subprocess": false},
+  "limits": {"wallTimeSeconds": 5, "memoryMiB": 64},
+  "learningUse": {"allowedInputs": [], "consent": "explicit_contribution", "automaticPromotion": false}
+}

@@ -22,6 +22,16 @@ class CommunitySurfaceTests(unittest.TestCase):
             ".github/ISSUE_TEMPLATE/evaluation_fixture.yml",
             ".github/ISSUE_TEMPLATE/config.yml",
             ".github/workflows/pull-request-boundary.yml",
+            ".github/dependabot.yml",
+            ".github/FUNDING.yml",
+            "CONFORMANCE.md",
+            "GITHUB_LAUNCH_PLAYBOOK.md",
+            "RELEASING.md",
+            "SPONSORS.md",
+            "tools/verify_release_manifest.py",
+            "implementations/javascript/validator.mjs",
+            "implementations/javascript/conformance.mjs",
+            "tests/test_release_manifest.py",
         )
         for relative in required:
             self.assertTrue((ROOT / relative).is_file(), relative)
@@ -34,6 +44,8 @@ class CommunitySurfaceTests(unittest.TestCase):
             "py -3 -m venv .venv",
             "python -m pip install -e .",
             "Expected result: a `HOLD` receipt and exit code `2`",
+            "python -m resoverse_commons.cli conformance",
+            "[Sponsor ResoVerse Commons](SPONSORS.md)",
         ):
             self.assertIn(expected, readme)
 

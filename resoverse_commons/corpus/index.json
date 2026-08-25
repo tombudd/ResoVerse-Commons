@@ -1,0 +1,11 @@
+{
+  "corpusVersion": "1.0",
+  "cases": [
+    {"id": "pass-minimal", "manifest": "pass-minimal.json", "expectedStatus": "PASS", "expectedReasonCodes": []},
+    {"id": "hold-automatic-promotion", "manifest": "hold-automatic-promotion.json", "expectedStatus": "HOLD", "expectedReasonCodes": ["AUTOMATIC_PROMOTION_PROHIBITED"]},
+    {"id": "hold-dependency", "manifest": "hold-dependency.json", "expectedStatus": "HOLD", "expectedReasonCodes": ["V1_DEPENDENCIES_PROHIBITED"]},
+    {"id": "hold-entrypoint-traversal", "manifest": "hold-entrypoint-traversal.json", "expectedStatus": "HOLD", "expectedReasonCodes": ["UNSAFE_ENTRYPOINT_PATH"]},
+    {"id": "hold-network", "manifest": "hold-network.json", "expectedStatus": "HOLD", "expectedReasonCodes": ["V1_NETWORK_PERMISSION_DENIED"]},
+    {"id": "hold-rights", "manifest": "hold-rights.json", "expectedStatus": "HOLD", "expectedReasonCodes": ["RIGHTS_TO_SUBMIT_NOT_CERTIFIED"]}
+  ]
+}

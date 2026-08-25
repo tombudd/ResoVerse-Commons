@@ -28,6 +28,7 @@ python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install -e .
 python -m unittest discover -s tests -v
+python -m resoverse_commons.cli conformance
 ```
 
 Windows PowerShell users can create the environment with `py -3 -m venv
@@ -39,7 +40,7 @@ Windows PowerShell users can create the environment with `py -3 -m venv
 2. Declare every permission. V1 capabilities require `dependencies: []` and
    prohibit third-party runtime dependencies.
 3. Include deterministic positive and negative tests for behavior changes.
-4. Run `python -m unittest discover -s tests -v`.
+4. Run `python -m unittest discover -s tests -v` and the conformance corpus.
 5. Validate changed manifests and bundles without executing their artifacts.
 6. Disclose AI assistance, third-party code, datasets, and model artifacts.
 7. Do not include credentials, private data, customer data, or protected

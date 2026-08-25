@@ -35,6 +35,8 @@ python -m resoverse_commons.cli validate \
 python -m resoverse_commons.cli validate-bundle \
   examples/local-metadata-reader/bundle.json
 
+python -m resoverse_commons.cli conformance
+
 python -m unittest discover -s tests -v
 ```
 
@@ -53,6 +55,8 @@ python -m resoverse_commons.cli validate `
 
 python -m resoverse_commons.cli validate-bundle `
   examples/local-metadata-reader/bundle.json
+
+python -m resoverse_commons.cli conformance
 
 python -m unittest discover -s tests -v
 ```
@@ -88,6 +92,14 @@ test succeeding, not a broken installation.
 Read [Contributing](CONTRIBUTING.md) for the development workflow, or start a
 [Discussion](https://github.com/tombudd/ResoVerse-Commons/discussions) if your
 idea is not ready to become an issue.
+
+## Sponsor the work
+
+Sponsorship helps fund open specifications, conformance fixtures, reference
+implementations, documentation, maintenance, and distinct technical review. It
+never buys acceptance, authority, or a validator `PASS`. See
+[Sponsor ResoVerse Commons](SPONSORS.md) for funding status, organizational
+sponsorship, and the independence boundary.
 
 ## How contributions may help systems evolve
 
@@ -125,6 +137,11 @@ See [Governance Boundary](GOVERNANCE_BOUNDARY.md), [Security](SECURITY.md), and
 - [Capability Bundle V1](CAPABILITY_BUNDLE.md)
 - [Reason Codes](REASON_CODES.md)
 - [Compatibility Policy](COMPATIBILITY.md)
+- [Cross-language Conformance](CONFORMANCE.md)
+- [Release Trust Path](RELEASING.md)
+- [Competitive Landscape](COMPETITIVE_LANDSCAPE.md)
+- [GitHub Launch Playbook](GITHUB_LAUNCH_PLAYBOOK.md)
+- [Sponsor ResoVerse Commons](SPONSORS.md)
 - [Roadmap](ROADMAP.md)
 - [Project Governance](GOVERNANCE.md)
 - [Maintainers and Registry Trust](MAINTAINERS.md)
