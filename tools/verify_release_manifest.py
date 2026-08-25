@@ -4,8 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import re
-import sys
-from pathlib import Path, PurePosixPath
+from pathlib import Path, PurePosixPath, PureWindowsPath
 
 
 LINE = re.compile(r"^([a-f0-9]{64})  (\./[^\n]+)$")
@@ -46,7 +45,11 @@ def verify_release_inventory(root: Path, inventory: Path) -> tuple[list[str], in
     root = root.resolve()
     failures: list[str] = []
     seen: set[str] = set()
-    for number, line in enumerate(inventory.read_text(encoding="utf-8").splitlines(), 1):
+    try:
+        lines = inventory.read_text(encoding="utf-8").splitlines()
+    except OSError:
+        return ["release inventory is missing or unreadable"], 0
+    for number, line in enumerate(lines, 1):
         match = LINE.fullmatch(line)
         if match is None:
             failures.append(f"line {number}: malformed inventory entry")
@@ -54,7 +57,16 @@ def verify_release_inventory(root: Path, inventory: Path) -> tuple[list[str], in
         expected, declared = match.groups()
         relative = declared[2:]
         path = PurePosixPath(relative)
-        if path.as_posix() != relative or path.is_absolute() or ".." in path.parts:
+        if (
+            not relative
+            or not all(32 <= ord(character) <= 126 for character in relative)
+            or "\\" in relative
+            or path.as_posix() != relative
+            or path.is_absolute()
+            or PureWindowsPath(relative).drive
+            or relative == "."
+            or ".." in path.parts
+        ):
             failures.append(f"line {number}: unsafe path")
             continue
         if relative in seen:

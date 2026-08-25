@@ -45,6 +45,27 @@ class ReleaseManifestTests(unittest.TestCase):
             failures, _ = verify_release_inventory(root, inventory)
         self.assertIn("inventory declares excluded or absent file ./absent.txt", failures)
 
+    def test_missing_or_unreadable_inventory_holds(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            failures, declared = verify_release_inventory(root, root / "missing.sha256")
+            self.assertEqual(failures, ["release inventory is missing or unreadable"])
+            self.assertEqual(declared, 0)
+
+            failures, declared = verify_release_inventory(root, root)
+            self.assertEqual(failures, ["release inventory is missing or unreadable"])
+            self.assertEqual(declared, 0)
+
+    def test_unsafe_portable_paths_hold(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            inventory = root / "RELEASE_MANIFEST.sha256"
+            for relative in (".", "nested\\file.txt", "C:drive.txt"):
+                with self.subTest(relative=relative):
+                    inventory.write_text(f"{'0' * 64}  ./{relative}\n", encoding="utf-8")
+                    failures, _ = verify_release_inventory(root, inventory)
+                    self.assertIn("line 1: unsafe path", failures)
+
     def test_nested_manifest_basename_is_not_excluded(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

@@ -49,6 +49,14 @@ class ConformanceCorpusTests(unittest.TestCase):
                 receipt = run_conformance_corpus(path)
             self.assertEqual(receipt["status"], "HOLD")
 
+    def test_empty_case_list_holds(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "index.json"
+            path.write_text('{"corpusVersion":"1.0","cases":[]}', encoding="utf-8")
+            receipt = run_conformance_corpus(path)
+        self.assertEqual(receipt["status"], "HOLD")
+        self.assertEqual(receipt["failures"], [{"id": "corpus", "reason": "MISSING_CORPUS_CASES"}])
+
     @unittest.skipIf(not hasattr(os, "symlink"), "symlinks unavailable")
     def test_symlink_escape_holds(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -56,7 +64,10 @@ class ConformanceCorpusTests(unittest.TestCase):
             root.mkdir()
             outside = Path(directory) / "outside.json"
             outside.write_text("{}", encoding="utf-8")
-            (root / "escape.json").symlink_to(outside)
+            try:
+                (root / "escape.json").symlink_to(outside)
+            except OSError as exc:
+                self.skipTest(f"symlink creation unavailable: {exc}")
             index = {
                 "corpusVersion": "1.0",
                 "cases": [{"id": "escape", "manifest": "escape.json",

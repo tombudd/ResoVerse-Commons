@@ -41,6 +41,8 @@ def run_conformance_corpus(index_path: Path) -> dict[str, Any]:
         if not isinstance(cases, list):
             failures.append(_failure("corpus", "INVALID_CORPUS_CASES"))
             cases = []
+        elif not cases:
+            failures.append(_failure("corpus", "MISSING_CORPUS_CASES"))
     elif index is not None:
         failures.append(_failure("corpus", "CORPUS_MUST_BE_OBJECT"))
         cases = []
