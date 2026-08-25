@@ -1,6 +1,6 @@
-# Commons Learning Lane V1
+# Contribution Review Queue
 
-Status: local, non-live intake contract. It does not admit evidence, update memory or cognition, execute a submission, or authorize production use.
+Status: a local checklist for submissions waiting for review. A submission cannot run code, change saved information, change how the software works, or be used in a live service on its own.
 
 ## What contributors may submit
 
@@ -8,14 +8,14 @@ An explicit learning candidate may contain contributor-owned or compatibly licen
 
 ## Lifecycle
 
-`SUBMITTED` → `QUARANTINED` → `EVALUATED` → `REVIEWED` → `ACCEPTED_AS_CANDIDATE` → `REVOKED`.
+`submitted` → `waiting_for_review` → `checked` → `reviewed` → `accepted_for_future_consideration` → `withdrawn`.
 
-No lifecycle state implies evidence admission, memory promotion, cognition change, runtime activation, or deployment. Those are separate protected transitions requiring their own authorization and evidence.
+Moving through this list does not run a submission, add it to the project, change the software, or deploy anything. A person must make any later decision separately.
 
 ## Non-negotiable boundaries
 
-- No automatic ingestion from pull requests, issues, discussions, forks, telemetry, or external repositories.
+- Nothing from pull requests, issues, discussions, forks, or external repositories is used automatically.
 - No submission executes as part of intake.
-- No candidate can approve, promote, or review itself.
-- Revocation is recorded as a state transition; it does not erase the historical receipt.
-- Public receipts expose only declared candidate metadata and decision reasons, never private UNA systems or contributor secrets.
+- A submission cannot approve or review itself.
+- A withdrawal is recorded without removing the earlier record.
+- Public records contain only the details the contributor supplied and the result; they never include private project material or contributor secrets.

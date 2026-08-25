@@ -21,7 +21,7 @@ def _canonical_sha256(value: object) -> str | None:
 
 
 def validate_learning_candidate(candidate: object) -> dict[str, Any]:
-    """Return a quarantine receipt; this never admits evidence, memory, or cognition."""
+    """Return a review receipt without running or using the submission."""
 
     reasons: list[str] = []
     if not isinstance(candidate, dict):
@@ -70,12 +70,11 @@ def validate_learning_candidate(candidate: object) -> dict[str, Any]:
     reason_codes = sorted(set(reasons))
     return {
         "receiptVersion": "1.0",
-        "status": "QUARANTINED" if not reason_codes else "HOLD",
+        "status": "waiting_for_review" if not reason_codes else "needs_changes",
         "candidateId": candidate_id if isinstance(candidate_id, str) else None,
         "canonicalCandidateSha256": _canonical_sha256(candidate),
         "reasonCodes": reason_codes,
-        "evidenceAdmissionAuthorized": False,
-        "memoryPromotionAuthorized": False,
-        "cognitionChangeAuthorized": False,
-        "executionAttempted": False,
+        "addedToProject": False,
+        "softwareChanged": False,
+        "codeRun": False,
     }

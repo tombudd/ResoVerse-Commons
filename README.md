@@ -89,19 +89,17 @@ Read [Contributing](CONTRIBUTING.md) for the development workflow, or start a
 [Discussion](https://github.com/tombudd/ResoVerse-Commons/discussions) if your
 idea is not ready to become an issue.
 
-## How contributions may help systems evolve
+## How contributions are handled
 
 Explicitly submitted source code, evaluations, counterexamples, and compatible
-data may become governed candidate inputs. They are never automatically
-executed, ingested, promoted, or incorporated into memory, cognition, doctrine,
-runtime, or production. Each transition requires separate evidence and
-authority.
+data can be considered by maintainers. They are never run automatically or used
+automatically to change stored information, software behavior, or live services.
+Any later use requires a separate human decision.
 
 The full contract is in [Contribution to Learning](CONTRIBUTION_TO_LEARNING.md)
-and [Commons Learning Lane V1](LEARNING_LANE.md). A valid opt-in candidate is
-only `QUARANTINED`; it is not approved or promoted.
-This repository contains no private UNA systems and grants no authority over
-them.
+and [Contribution Review Queue](LEARNING_LANE.md). A valid opt-in submission is
+only `waiting_for_review`; it has not been used.
+This repository contains no private project systems and grants no access to them.
 
 ## What belongs here
 
