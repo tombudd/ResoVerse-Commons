@@ -33,7 +33,7 @@ def main() -> int:
             candidate = load_json_bytes(args.candidate.read_bytes())
         except DuplicateJsonKeyError as exc:
             receipt = _invalid_receipt(f"DUPLICATE_JSON_KEY:{exc}")
-        except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        except (OSError, UnicodeError, json.JSONDecodeError, RecursionError) as exc:
             receipt = _invalid_receipt(f"CANDIDATE_READ_ERROR:{type(exc).__name__}")
         else:
             receipt = validate_learning_candidate(candidate)

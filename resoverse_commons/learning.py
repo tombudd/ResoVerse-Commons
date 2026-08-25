@@ -40,6 +40,7 @@ def _invalid_receipt(reason: str) -> dict[str, Any]:
 def validate_learning_candidate(candidate: object) -> dict[str, Any]:
     """Return a review receipt without running or using the submission."""
 
+    submitted_candidate = candidate
     reasons: list[str] = []
     if not isinstance(candidate, dict):
         candidate = {}
@@ -89,7 +90,7 @@ def validate_learning_candidate(candidate: object) -> dict[str, Any]:
         "receiptVersion": "1.0",
         "status": "waiting_for_review" if not reason_codes else "needs_changes",
         "candidateId": candidate_id if isinstance(candidate_id, str) else None,
-        "canonicalCandidateSha256": _canonical_sha256(candidate),
+        "canonicalCandidateSha256": _canonical_sha256(submitted_candidate),
         "reasonCodes": reason_codes,
         "addedToProject": False,
         "softwareChanged": False,

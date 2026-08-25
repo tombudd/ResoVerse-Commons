@@ -61,3 +61,26 @@ class LearningCandidateTests(unittest.TestCase):
                 receipt = json.loads(output.getvalue())
                 self.assertEqual(receipt["status"], "needs_changes")
                 self.assertIn(expected_reason, receipt["reasonCodes"])
+
+    def test_cli_handles_deeply_nested_json(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "nested.json"
+            depth = sys.getrecursionlimit() + 10
+            path.write_text("[" * depth + "0" + "]" * depth, encoding="utf-8")
+            output = io.StringIO()
+            with patch.object(sys, "argv", ["resoverse-commons", "validate-learning-candidate", str(path)]), redirect_stdout(output):
+                self.assertEqual(main(), 2)
+            receipt = json.loads(output.getvalue())
+            self.assertEqual(receipt["status"], "needs_changes")
+            self.assertIn("CANDIDATE_MUST_BE_OBJECT", receipt["reasonCodes"])
+            self.assertIsNotNone(receipt["canonicalCandidateSha256"])
+
+    def test_cli_handles_decoder_recursion_error(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "candidate.json"
+            path.write_text("{}", encoding="utf-8")
+            output = io.StringIO()
+            with patch("resoverse_commons.cli.load_json_bytes", side_effect=RecursionError), patch.object(sys, "argv", ["resoverse-commons", "validate-learning-candidate", str(path)]), redirect_stdout(output):
+                self.assertEqual(main(), 2)
+            receipt = json.loads(output.getvalue())
+            self.assertEqual(receipt["reasonCodes"], ["CANDIDATE_READ_ERROR:RecursionError"])
