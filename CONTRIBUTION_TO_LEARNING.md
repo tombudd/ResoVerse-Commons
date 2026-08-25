@@ -1,37 +1,37 @@
-# Contribution-to-Learning Contract
+# Contribution Review Contract
 
-Status: public design contract. It grants no runtime or promotion authority.
+Status: a public guide for handling submissions. It does not give a submission permission to run or be used.
 
 ## Permitted candidate inputs
 
-ResoVerse systems may evaluate explicitly submitted source code, manifests,
-tests, counterexamples, reproducible evaluation results, and contributor-owned
-or compatibly licensed data. Telemetry is excluded from V1.
+Maintainers may check explicitly submitted source code, manifests, tests,
+counterexamples, reproducible results, and contributor-owned or compatibly
+licensed data. Automatically collected usage data is not included.
 
 Each input must identify its author, origin, license, rights to submit,
-the required zero-dependency declaration, permissions, intended learning uses,
-and known limits. V1 runtime dependencies are prohibited.
+whether it needs extra software to run, intended use, and known limits. Extra
+software is not allowed for the first version.
 
 ## Candidate use
 
-A submitted bundle may be quarantined, statically inspected, evaluated in a
-network-denied sandbox, compared with other candidates, and reviewed. These
-steps do not admit the bundle into any model, memory, doctrine, runtime, or
-production system.
+A submission may wait for review, be inspected without running it, be checked
+in an isolated environment with no network access, be compared with other
+submissions, and be reviewed. None of these steps add it to the project,
+change the software, or use it in a live service.
 
-## Separate transitions
+## Separate decisions
 
-Candidate-registry acceptance, sandbox approval, runtime activation, evidence
-admission, memory promotion, cognition change, and production deployment are
-different transitions. Passing one transition grants none of the others.
+Recording a submission, allowing an isolated check, allowing it to run, adding
+it to the project, changing the software, and using it in a live service are
+different decisions. Passing one step does not allow any other step.
 
 ## Prohibitions
 
-- No automatic ingestion from pull requests, issues, discussions, forks, or
-  external repositories.
-- No implicit consent and no undisclosed training or memory use.
-- No private, personal, customer, credential, or protected runtime material.
-- No contribution may authorize itself or grade its own independent review.
-- No failure, ambiguity, or missing evidence may be interpreted as permission.
+- Nothing from pull requests, issues, discussions, forks, or outside
+  repositories is used automatically.
+- Contributors must clearly say how a submission may be used.
+- Private, personal, customer, password, and service-only material is not allowed.
+- A submission cannot approve or review itself.
+- Missing or unclear information never counts as permission.
 
-An uncovered condition returns `HOLD`.
+A submission with missing information returns `needs_changes`.
