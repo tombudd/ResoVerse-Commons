@@ -97,7 +97,9 @@ executed, ingested, promoted, or incorporated into memory, cognition, doctrine,
 runtime, or production. Each transition requires separate evidence and
 authority.
 
-The full contract is in [Contribution to Learning](CONTRIBUTION_TO_LEARNING.md).
+The full contract is in [Contribution to Learning](CONTRIBUTION_TO_LEARNING.md)
+and [Commons Learning Lane V1](LEARNING_LANE.md). A valid opt-in candidate is
+only `QUARANTINED`; it is not approved or promoted.
 This repository contains no private UNA systems and grants no authority over
 them.
 

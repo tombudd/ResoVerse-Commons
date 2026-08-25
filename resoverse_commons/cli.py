@@ -7,6 +7,7 @@ import json
 from pathlib import Path
 
 from .bundle import validate_bundle_path
+from .learning import validate_learning_candidate
 from .validator import validate_path
 
 
@@ -19,15 +20,18 @@ def main() -> int:
         "validate-bundle", help="validate a bundle and its byte-bound files without executing"
     )
     validate_bundle.add_argument("bundle", type=Path)
+    validate_learning = subparsers.add_parser("validate-learning-candidate", help="quarantine an opt-in learning candidate without promotion")
+    validate_learning.add_argument("candidate", type=Path)
     args = parser.parse_args()
 
-    receipt = (
-        validate_path(args.manifest)
-        if args.command == "validate"
-        else validate_bundle_path(args.bundle)
-    )
+    if args.command == "validate":
+        receipt = validate_path(args.manifest)
+    elif args.command == "validate-bundle":
+        receipt = validate_bundle_path(args.bundle)
+    else:
+        receipt = validate_learning_candidate(json.loads(args.candidate.read_text(encoding="utf-8")))
     print(json.dumps(receipt, indent=2, sort_keys=True))
-    return 0 if receipt["status"] == "PASS" else 2
+    return 0 if receipt["status"] in {"PASS", "QUARANTINED"} else 2
 
 
 if __name__ == "__main__":
