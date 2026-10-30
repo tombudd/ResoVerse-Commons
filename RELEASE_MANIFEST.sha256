@@ -5,7 +5,7 @@ dc6c4de26b4914fbb4fb91f83c2deaf9bb546e654aa8065f1cc8a236582a461a  ./.github/ISSU
 aa5b5fbb8ac79a86bb5fc7c2b869d7303eefe256c5f51b5b62330f9aa5e9d878  ./.github/ISSUE_TEMPLATE/evaluation_fixture.yml
 6049ee048f0db82b01975a607c29a83c77a694e9041a6fa8ba31549b5cc735c0  ./.github/pull_request_template.md
 247486f2bd39103b49698c4fbce37efc32af3120253517a60a28bc37cfdabcc0  ./.github/workflows/pull-request-boundary.yml
-8bed609c9adf3408d17c7f93000dd5a1d254ef9276fc58b4370192989b1cad62  ./.github/workflows/trusted-main.yml
+8abacefb0ffb179aa1d687524f044ee6a4fae7bc1f5bc6b66b82407a0a67580b  ./.github/workflows/trusted-main.yml
 885ae703ce3f723921f31cfa8b5b9bcf7a82b8eab16a07ebe5508c02547ae825  ./.gitignore
 2ec04704d7d655b78df11d3e8973e59b523349b065c74d11b702e03450e76ad4  ./CAPABILITY_BUNDLE.md
 bee95affba0d7610d0c773e0be9160e15df487fc352f875f7ac562d39457079d  ./CHANGELOG.md
